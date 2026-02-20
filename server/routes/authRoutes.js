@@ -46,10 +46,12 @@ router.post("/login",async (req,res)=>{
       { id: userExist._id },
       process.env.JWT_SECRET
     );
-
+    res.cookie("token",token,{
+      httpOnly:true,
+      sameSite:"lax"
+    })
     res.json({
-      message: "Login successful",
-      token
+      message: "Login successful"
     });
      
    }

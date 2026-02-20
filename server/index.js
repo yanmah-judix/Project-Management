@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose=require("mongoose");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const authRouter=require('./routes/authRoutes');
@@ -10,13 +11,18 @@ const taskRouter=require('./routes/taskRoutes');
 
 const app = express();
 
+app.use(cookieParser());
+
 //mongodb connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin:"http://localhost:3000",
+  credentials:true
+}));
 app.use(helmet());
 app.use(express.json());
 
