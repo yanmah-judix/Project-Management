@@ -2,8 +2,10 @@
 
 import {useState} from 'react';
 import Link from "next/link";
+import { useRouter } from "next/navigation"; 
 
 export default function LoginPage() {
+   const router = useRouter(); 
   const [form, setForm] = useState({
     email: "",
     password: ""
@@ -34,7 +36,7 @@ export default function LoginPage() {
       console.log("Login response:", res.status, data);
 
       if (res.ok) {
-        setMessage(data.message); 
+         router.push("/dashboard");
         setForm({ email: "", password: "" });
       } 
       else {
