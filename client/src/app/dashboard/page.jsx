@@ -31,8 +31,9 @@ export default async function DashboardPage() {
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-6">
           {projects.map((p) => (
-            <div
-              key={p._id}
+            <Link key={p._id} href={`/project/${p._id}`}>
+             <div
+              
               className="bg-white p-5 rounded-2xl shadow hover:shadow-lg"
             >
               <h2 className="text-xl font-semibold">{p.name}</h2>
@@ -40,6 +41,8 @@ export default async function DashboardPage() {
                 {p.description || "No description"}
               </p>
             </div>
+            </Link>
+           
           ))}
         </div>
       )}
