@@ -7,8 +7,7 @@ export default function ProjectPage() {
   const [project, setProject] = useState();
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
-
-  // fetch project
+  
   useEffect(() => {
     if(!id) return;
     const fetchProject = async () => {
@@ -16,20 +15,18 @@ export default function ProjectPage() {
         const res = await fetch(`http://localhost:5000/project/${id}`,{
           credentials:"include"
         });
-        if (!res.ok) console.log("error occured");
-
+        if (!res.ok) return;
         const data = await res.json();
         setProject(data);
         setTasks(data.tasks ?? []);
-      } catch (err) {
+        } 
+        catch (err) {
         console.error(err);
       }
     };
-
-    fetchProject();
+  fetchProject();
   }, [id]);
 
-  // add task
   const handleAddTask = async (e) => {
     e.preventDefault();
     const title = newTask.trim();
@@ -49,14 +46,14 @@ export default function ProjectPage() {
       if (!res.ok) throw new Error("Task creation failed");
 
       const createdTask = await res.json();
-      setTasks((t) => [...t, createdTask]); // instant update
+      setTasks((t) => [...t, createdTask]); 
       setNewTask("");
     } catch (err) {
       console.error(err);
     }
   };
- if(project===undefined) return null;
-  if (!project) return <p className="p-6">Project not found</p>;
+  if(!project) return <p className="p-6">Project Not Found</p>
+ 
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
