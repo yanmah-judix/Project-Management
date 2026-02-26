@@ -1,15 +1,18 @@
 "use client";
 import { useState } from 'react';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
+import {useRouter} from 'next/navigation';
 
 export default function RegisterPage() {
+  const router=useRouter() ;
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: ""
   });
 
-  const [message, setMessage] = useState("");
+  
 
   function handleChange(e) {
     setForm({
@@ -20,8 +23,6 @@ export default function RegisterPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setMessage("");
-
     try {
       const res = await fetch("http://localhost:5000/register", {
         method: "POST",
@@ -32,17 +33,13 @@ export default function RegisterPage() {
         body: JSON.stringify(form)
       });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setMessage(data.message);
-        setForm({ name: "", email: "", password: "" });
-      } else {
-        setMessage(data.message || "Registration failed");
-      }
-
-    } catch {
-      setMessage("Server error. Check backend.");
+      if(!res.ok) throw new Error("server calling failed");
+      router.push("/login");
+      setForm({ name: "", email: "", password: "" });
+      } 
+       catch(err) {
+      toast.error("User already exists");
+     
     }
   }
 
@@ -98,9 +95,7 @@ export default function RegisterPage() {
             Register
           </button>
         </form>
-         {message && (
-          <p className="text-center text-sm mt-4">{message}</p>
-        )}
+       
 
         <p className="text-center text-sm text-gray-500 mt-4">
           Already have an account?{" "}

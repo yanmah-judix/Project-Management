@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function ProjectPage() {
   const { id } = useParams(); 
@@ -15,13 +16,14 @@ export default function ProjectPage() {
         const res = await fetch(`http://localhost:5000/project/${id}`,{
           credentials:"include"
         });
-        if (!res.ok) return;
+        if (!res.ok) throw new Error("API failed");
+
         const data = await res.json();
         setProject(data);
         setTasks(data.tasks ?? []);
         } 
         catch (err) {
-        console.error(err);
+        toast.error("something went wrong please try again");
       }
     };
   fetchProject();

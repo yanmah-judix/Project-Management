@@ -2,7 +2,8 @@
 
 import {useState} from 'react';
 import Link from "next/link";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast'; 
 
 export default function LoginPage() {
    const router = useRouter(); 
@@ -10,8 +11,6 @@ export default function LoginPage() {
     email: "",
     password: ""
   });
-
-  const [message, setMessage] = useState("");
 
   
   function handleChange(e) {
@@ -23,7 +22,7 @@ export default function LoginPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setMessage("");
+   
 
     try {
       const res = await fetch("http://localhost:5000/login", {
@@ -35,18 +34,12 @@ export default function LoginPage() {
        const data = await res.json();
       console.log("Login response:", res.status, data);
 
-      if (res.ok) {
-         router.push("/dashboard");
+      if(!res.ok) throw new Error("Login Failed");
+       router.push("/dashboard");
         setForm({ email: "", password: "" });
-      } 
-      else {
-        setMessage(data.message || "Login failed");
-      }
-
     } 
     catch (err) {
-      console.error(err);
-      setMessage("Server error. Check backend.");
+      toast.error("Invalid credentials");
     }
   }
   return (
@@ -88,9 +81,7 @@ export default function LoginPage() {
             Sign In
           </button>
         </form>
-        {message && (
-          <p className="text-center text-sm mt-4">{message}</p>
-        )}
+       
         <p className="text-center text-sm text-gray-500 mt-4">
           Don’t have an account?{" "} 
           <Link href="/register" className="text-blue-600 cursor-pointer">Register</Link>
