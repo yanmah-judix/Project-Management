@@ -2,9 +2,7 @@ import { Types } from "mongoose";
 import Task, { TaskDocument } from "./tasks.model";
 import Project from "../projects/projects.model";
 
-// ======================
-// Create Task
-// ======================
+
 export const createTask = async (
   projectId: Types.ObjectId,
   data: { title: string },
@@ -25,9 +23,7 @@ export const createTask = async (
   });
 };
 
-// ======================
-// Delete Task
-// ======================
+
 export const deleteTask = async (
   taskId: Types.ObjectId,
   userId: Types.ObjectId
@@ -38,7 +34,7 @@ export const deleteTask = async (
     throw new Error("Task not found");
   }
 
-  // Verify ownership via Project (NO populate needed)
+  
   const project = await Project.findOne({
     _id: task.project,
     user: userId,
@@ -51,9 +47,7 @@ export const deleteTask = async (
   await task.deleteOne();
 };
 
-// ======================
-// Mark Task as Done
-// ======================
+
 export const markDone = async (
   taskId: Types.ObjectId,
   userId: Types.ObjectId
@@ -64,7 +58,7 @@ export const markDone = async (
     throw new Error("Task not found");
   }
 
-  // Verify ownership via Project (NO populate needed)
+  
   const project = await Project.findOne({
     _id: task.project,
     user: userId,

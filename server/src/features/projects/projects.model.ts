@@ -3,7 +3,7 @@ import mongoose, { Schema, Types } from "mongoose";
 export interface IProject {
   name: string;
   description?: string;
-  user: Types.ObjectId; // Reference to User
+  user: Types.ObjectId; 
   createdAt: Date;
   updatedAt: Date;
 }

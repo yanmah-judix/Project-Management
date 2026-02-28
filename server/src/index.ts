@@ -15,14 +15,10 @@ dotenv.config();
 
 const app: Application = express();
 
-// =====================
-// Database Connection
-// =====================
+
 connectDB();
 
-// =====================
-// Middlewares
-// =====================
+
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -34,21 +30,14 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
-// =====================
-// Routes
-// =====================
+
 app.use("/", userRoutes);
 app.use("/project", projectRoutes);
 app.use("/", taskRoutes);
 
-// =====================
-// Global Error Handler
-// =====================
 app.use(errorMiddleware);
 
-// =====================
-// Start Server
-// =====================
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

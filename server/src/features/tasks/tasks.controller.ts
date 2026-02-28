@@ -2,9 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
 import * as taskService from "./tasks.service";
 
-// ======================
-// Create Task
-// ======================
+
 export const create = async (
   req: Request<{ projectId: string }, any, { title: string }>,
   res: Response,
@@ -23,9 +21,7 @@ export const create = async (
   }
 };
 
-// ======================
-// Delete Task
-// ======================
+
 export const remove = async (
   req: Request<{ taskId: string }>,
   res: Response,
@@ -43,9 +39,7 @@ export const remove = async (
   }
 };
 
-// ======================
-// Mark Task Done
-// ======================
+
 export const done = async (
   req: Request<{ taskId: string }>,
   res: Response,

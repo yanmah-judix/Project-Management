@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
 import * as projectService from "./projects.service";
 
-// Create Project
+
 export const create = async (
   req: Request,
   res: Response,
